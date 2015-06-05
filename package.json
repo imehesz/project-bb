@@ -1,0 +1,23 @@
+{
+  "name": "project-bb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babelify": "^6.1.2",
+    "browserify": "^10.2.3",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.1.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-sass": "^2.0.1",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-webserver": "^0.9.1",
+    "spa-server": "^0.1.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
