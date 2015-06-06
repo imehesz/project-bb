@@ -46,7 +46,7 @@ gulp.task("copyLibs", function(){
 });
 
 gulp.task("watchJs", function(){
-    gulp.watch(["app/app.es6.js", "app/modules/**/*.js", "app/css/**/*.scss", "app/index.html"], ["build"]);
+  gulp.watch(["app/app.es6.js", "app/modules/**/*.js", "app/css/**/*.scss", "app/index.html"], ["build"]);
 });
 
 gulp.task("build", ["modules","sass", "copyIndex", "copyLibs"]);
