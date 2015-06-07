@@ -1,15 +1,13 @@
-import DbModule from "./modules/DbModule";
+import book from "./modules/BookModule";
 
-var db = DbModule.instance;
-
-db["bb_asv"] = db.taffy();
-if(!db["bb_asv"].store("bb_asv") || !db["bb_asv"]().first()) {
-  db["bb_asv"].insert({bookId:"1", chapterId:"1", verseId:"1"});
-} else {
-  console.log("got stuff, not doing anything ,,,");
-}
-
-console.log("db", db);
+var asvBook = new book({language:"asv"});
+var hunBook = new book({
+  language:"hun",
+  loadCallback: function() {
+    console.log("mooo");
+    console.log(this.db().first());
+  }
+});
 
 class Test {
   constructor() {
