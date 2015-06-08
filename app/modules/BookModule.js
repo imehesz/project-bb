@@ -24,10 +24,10 @@ class BookModule {
      this.loadCallback = options.loadCallback;
 
      this.dbi = DbModule.instance;
-     this.loadBook();
+     this.loadBooks();
   }
 
-  loadBook() {
+  loadBooks() {
     let dbStr = this.dbPrefix + this.language;
     let cbHandler = () => {
       if (this.loadCallback && typeof this.loadCallback == "function") {
@@ -52,6 +52,22 @@ class BookModule {
 
   db(opts) {
     return this.dbi[this.dbPrefix+this.language](opts);
+  }
+
+  getBookIds() {
+    return this.db().order("bookId").distinct("bookId");
+  }
+
+  getChapterIdsInBook(bookId) {
+    return this.db({bookId:bookId}).order("chapterId").distinct("chapterId");
+  }
+
+  getVerseIdsInChapter(bookId, chapterId) {
+    return this.db({bookId:bookId, chapterId: chapterId}).order("verseId").distinct("verseId");
+  }
+
+  getVersesInChapter(bookId, chapterId) {
+    return this.db({bookId:bookId, chapterId: chapterId}).order("verseId").get();
   }
 }
 

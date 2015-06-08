@@ -5,7 +5,7 @@ var hunBook = new book({
   language:"hun",
   loadCallback: function() {
     console.log("mooo");
-    console.log(this.db().first());
+    console.log(this.getVersesInChapter(1,1));
   }
 });
 
