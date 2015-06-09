@@ -4,15 +4,32 @@
   <meta charset="UTF-8">
   <title></title>
 </head>
-<body>
-  <h1>mnooooo</h1>
+<body ng-app="webApp">
+  <div ng-controller="AppController">
+    <h1>{{moo}}</h1>
 
-  <div id="panel1"></div>
+    <div id="book1">
+      <div ng-repeat="bookId in bookOne.getBookIds()">
+        <a href="#/{{bookId}}" ng-click="setBookId(bookId)">{{bookId}}</a>
+      </div>
+      <div ng-repeat="chapterId in chapterIds">
+        <a href="#/{{bookId}}" ng-click="setBookId(bookId)">{{bookId}}</a>
+        <a href="#/{{selectedBookId}}/{{chapterId}}" ng-click="setChapterId(chapterId)">{{chapterId}}</a>
+      </div>
+      <div ng-repeat="verse in bookOneVerses">
+        {{verse.text}} 
+      </div>
+      <hr />
+      <div ng-repeat="verse in bookTwoVerses">
+        {{verse.text}} 
+      </div>
 
-  <div id="panel2"></div>
+    </div>
+  </div>
   
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="libs/taffydb/taffy.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
   <script type="text/javascript" src="app.js"></script>
 
 </body>
