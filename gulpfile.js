@@ -45,9 +45,14 @@ gulp.task("copyLibs", function(){
   .pipe(gulp.dest("target/libs"));
 });
 
+gulp.task("copyData", function(){
+  gulp.src(["app/data/**/*"])
+  .pipe(gulp.dest("target/data"));
+});
+
 gulp.task("watchJs", function(){
   gulp.watch(["app/app.es6.js", "app/modules/**/*.js", "app/css/**/*.scss", "app/index.html"], ["build"]);
 });
 
-gulp.task("build", ["modules","sass", "copyIndex", "copyLibs"]);
+gulp.task("build", ["modules","sass", "copyIndex", "copyLibs", "copyData"]);
 gulp.task("default", ["build","watchJs","webserver"]);
