@@ -1,21 +1,6 @@
 import DbModule from "./DbModule";
 
-let MOCK = {
-  "asv": [
-    {bookId:1, chapterId: 1, verseId: 1, text: "this is asv 111"},
-    {bookId:1, chapterId: 1, verseId: 2, text: "this is asv 112"}
-  ],
-
-  "hun": [
-    {bookId:1, chapterId: 1, verseId: 1, text: "ez magyar 111"},
-    {bookId:1, chapterId: 1, verseId: 2, text: "ez magyar 112"}
-  ],
-
-  "esp": [
-    {bookId:1, chapterId: 1, verseId: 1, text: "le espanol 111"},
-    {bookId:1, chapterId: 1, verseId: 2, text: "le espanol 112"}
-  ]
-};
+let BOOKS = ["asv", "hun", "esp"];
 
 class BookModule {
   constructor (options) {
@@ -28,22 +13,36 @@ class BookModule {
   }
 
   loadBooks() {
+    let t = this;
     let dbStr = this.dbPrefix + this.language;
-    let cbHandler = () => {
-      if (this.loadCallback && typeof this.loadCallback == "function") {
-        this.loadCallback();
+    let cbHandler = function() {
+      if (t.loadCallback && typeof t.loadCallback == "function") {
+        // we're calling the callback with the BookModule JS scope
+        t.loadCallback.apply(t);
       }
     }
     this.dbi[dbStr] = this.dbi.taffy();
 
     if(!this.dbi[dbStr].store(dbStr) || !this.dbi[dbStr]().first()) {
-      //this.dbi[dbStr].insert({language: this.language, bookId:"1", chapterId:"1", verseId:"1"});
-      if (MOCK[this.language] && MOCK[this.language].length) {
-        MOCK[this.language].forEach((row) => {
-          this.dbi[dbStr].insert(row);
+      // we only fire the ajax call if it's a possibility
+      if (BOOKS.indexOf(this.language) > -1) {
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: "/data/books/" + this.language + ".json",
+          success: (data) => {
+            if (data && data.length) {
+              data.forEach((row) => {
+                this.dbi[dbStr].insert(row);
+              });
+            }
+            cbHandler();
+          },
+          error: (e) => {
+            console.log("MEEEEEEEEEK", e);
+          }
         });
       }
-      cbHandler();
     } else {
       // we should have everything, let's just call the callback
       cbHandler();

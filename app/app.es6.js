@@ -16,6 +16,7 @@ class App {
       language: app.bookOneId || "asv", 
       loadCallback: function() {
         $scope.bookOne = this;
+        if (!$scope.$$phase) $scope.$apply();
       }
     });
 
@@ -23,10 +24,17 @@ class App {
       language: app.bookTwoId || "asv", 
       loadCallback: function() {
         $scope.bookTwo = this;
+        if (!$scope.$$phase) $scope.$apply();
       }
     });
 
+    $scope.resetVerses = function() {
+      $scope.bookOneVerses = [];
+      $scope.bookTwoVerses = [];
+    }
+
     $scope.setBookId = function(id) {
+      $scope.resetVerses();
       $scope.selectedBookId = id || 0;
       if ($scope.selectedBookId) {
         $scope.chapterIds = $scope.bookOne.getChapterIdsInBook(id);
