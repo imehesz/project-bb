@@ -55,8 +55,9 @@ class BookModule {
   
                   cbHandler();
                 },
-                error: () => {
+                error: (e) => {
                   console.log("No headers found for this language: " + this.language);
+                  console.log(e);
                   cbHandler();
                 }
               });
@@ -102,7 +103,6 @@ class BookModule {
   
   getHeaderById(bookId) {
     // cheeck if we have headers
-    console.log("BookModule getHeaderById");
     if (this.dbi[this.dbPrefix+this.language +"_headers"]) {
       return this.dbh({bookId: bookId}).get();
     }
