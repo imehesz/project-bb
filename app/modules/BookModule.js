@@ -22,8 +22,11 @@ class BookModule {
       }
     }
     this.dbi[dbStr] = this.dbi.taffy();
+    this.dbi[dbStr].store(dbStr)
+    this.dbi[dbStr+"_headers"] = this.dbi.taffy();
+    this.dbi[dbStr+"_headers"].store(dbStr+"_headers");
 
-    if(!this.dbi[dbStr].store(dbStr) || !this.dbi[dbStr]().first()) {
+    if(!this.dbi[dbStr]().first()) {
       // we only fire the ajax call if it's a possibility
       if (BOOKS.indexOf(this.language) > -1) {
         $.ajax({
@@ -36,7 +39,30 @@ class BookModule {
                 this.dbi[dbStr].insert(row);
               });
             }
-            cbHandler();
+
+            // let's try to load a header file
+            if (!this.dbi[dbStr+"_headers"]().first()) {
+              $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "/data/books/" + this.language + "-headers.json",
+                success: (data) => {
+                  if (data && data.length) {
+                    data.forEach((row) => {
+                      this.dbi[dbStr+"_headers"].insert(row);
+                    });
+                  }
+  
+                  cbHandler();
+                },
+                error: () => {
+                  console.log("No headers found for this language: " + this.language);
+                  cbHandler();
+                }
+              });
+            } else {
+              cbHandler();
+            }
           },
           error: (e) => {
             console.log("MEEEEEEEEEK", e);
@@ -53,6 +79,11 @@ class BookModule {
     return this.dbi[this.dbPrefix+this.language](opts);
   }
 
+  // the database access for the headers
+  dbh(opts) {
+    return this.dbi[this.dbPrefix+this.language+"_headers"](opts);
+  }
+
   getBookIds() {
     return this.db().order("bookId").distinct("bookId");
   }
@@ -67,6 +98,14 @@ class BookModule {
 
   getVersesInChapter(bookId, chapterId) {
     return this.db({bookId:bookId, chapterId: chapterId}).order("verseId").get();
+  }
+  
+  getHeaderById(bookId) {
+    // cheeck if we have headers
+    console.log("BookModule getHeaderById");
+    if (this.dbi[this.dbPrefix+this.language +"_headers"]) {
+      return this.dbh({bookId: bookId}).get();
+    }
   }
 }
 

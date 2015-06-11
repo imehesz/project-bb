@@ -15,10 +15,9 @@
 
     <div id="book1">
       <div ng-repeat="bookId in bookOne.getBookIds()">
-        <a href="#/{{bookId}}" ng-click="setBookId(bookId)">{{bookId}}</a>
+        <a href="#/{{bookId}}" ng-click="setBookId(bookId)">{{getBookOneHeader(bookId).headerShort||bookId}}</a>
       </div>
       <div ng-repeat="chapterId in chapterIds">
-        <a href="#/{{bookId}}" ng-click="setBookId(bookId)">{{bookId}}</a>
         <a href="#/{{selectedBookId}}/{{chapterId}}" ng-click="setChapterId(chapterId)">{{chapterId}}</a>
       </div>
       <div ng-repeat="verse in bookOneVerses">

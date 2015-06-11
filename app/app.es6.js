@@ -28,6 +28,19 @@ class App {
       }
     });
 
+    $scope.getBookHeader = function(bookObj, bookId) {
+      let results = bookObj.getHeaderById(bookId);
+      return results && results.length ? results[0] : null;
+    };
+
+    $scope.getBookOneHeader = function(id) {
+      return $scope.getBookHeader($scope.bookOne, id);
+    };
+
+    $scope.getBookTwoHeader = function(id) {
+      return $scope.getBookHeader($scope.bookTwo, id);
+    }
+
     $scope.resetVerses = function() {
       $scope.bookOneVerses = [];
       $scope.bookTwoVerses = [];
@@ -52,8 +65,8 @@ class App {
 }
 
 var app = new App({
-  bookOne: "asv",
-  bookTwo: "hun"
+  bookOne: "hun",
+  bookTwo: "asv"
 });
 
 var webApp = angular.module("webApp", []);
