@@ -21,7 +21,7 @@ gulp.task("sass", function(){
     .pipe(sourceMaps.init())
     .pipe(sass())
     .pipe(sourceMaps.write())
-    .pipe(gulp.dest("target/"));
+    .pipe(gulp.dest("target/css/"));
 });
 
 gulp.task("modules", function(){

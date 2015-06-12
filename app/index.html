@@ -2,20 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title></title>
+  <title>Project BB</title>
 
-  <style>
-    .book, .chapter, .verse {
-      display: inline-block;
-      margin-right: 5px;
-    } 
+  <!--Import materialize.css-->
+    <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+  <link type="text/css" rel="stylesheet" href="css/style.css"  media="screen,projection"/>
 
-    .verse sup {
-      color: #aaa;
-      font-size: 8px;
-      margin-right: 2px;
-    }
-  </style>
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="libs/taffydb/taffy.js"></script>
@@ -24,28 +19,37 @@
 </head>
 <body ng-app="webApp">
   <div ng-controller="AppController">
-    <h1>{{moo}}</h1>
+    <div class="container">
+      <h1>{{moo}}</h1>
 
-    <div id="book1" class="book-wrapper">
-      <div class="book" ng-repeat="bookId in bookOne.getBookIds()">
-        <a href="#/{{bookId}}" ng-click="setBookId(bookId)">{{getBookOneHeader(bookId).headerShort||getBookOneHeader(bookId).headerLong|limitTo:4||bookId}}</a>
-      </div>
-      <div>
-        <div class="chapter" ng-repeat="chapterId in chapterIds">
-          <a href="#/{{selectedBookId}}/{{chapterId}}" ng-click="setChapterId(chapterId)">{{chapterId}}</a>
+      <a ng-show="selectedChapterId" ng-click="setChapterId(0)" class="btn-floating btn-small red bb-btn-back"><i class="large mdi-hardware-keyboard-arrow-left"></i></a>
+      <a ng-show="selectedBookId&&!selectedChapterId" ng-click="setBookId(0)" class="btn-floating btn-small red bb-btn-back"><i class="large mdi-hardware-keyboard-arrow-left"></i></a>
+  
+      <div id="book1" class="book-wrapper">
+        <div ng-show="!selectedBookId" class="book" ng-repeat="bookId in bookOne.getBookIds()">
+          <a class="btn-flat"href="#/{{bookId}}" ng-click="setBookId(bookId)">{{getBookOneHeader(bookId).headerShort||getBookOneHeader(bookId).headerLong|limitTo:4||bookId}}</a>
         </div>
-      </div>
-      <div class="verses-wrapper">
-        <div class="verse" ng-repeat="verse in bookOneVerses">
-          <sup>{{verse.verseId}}</sup>{{verse.text}} 
+        <div ng-show="!selectedChapterId">
+          <div class="chapter" ng-repeat="chapterId in chapterIds">
+            <a class="btn-flat" href="#/{{selectedBookId}}/{{chapterId}}" ng-click="setChapterId(chapterId)">{{chapterId}}</a>
+          </div>
         </div>
-        <hr />
-        <div class="verse" ng-repeat="verse in bookTwoVerses">
-          <sup>{{verse.verseId}}</sup>{{verse.text}} 
+        <div class="row verses-wrapper">
+          <div class="col s12 m6">
+            <div class="verse" ng-repeat="verse in bookOneVerses">
+              <sup>{{verse.verseId}}</sup>{{verse.text}} 
+            </div>
+          </div>
+          <div class="col s12 m6">
+            <div class="verse" ng-repeat="verse in bookTwoVerses">
+              <sup>{{verse.verseId}}</sup>{{verse.text}} 
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </div> <!-- .container -->
   
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
 </body>
 </html>

@@ -51,6 +51,7 @@ class App {
     $scope.setBookId = function(id) {
       $scope.resetVerses();
       $scope.selectedBookId = id || 0;
+      $scope.chapterIds = []; // resetting chapterIds
       if ($scope.selectedBookId) {
         $scope.moo = $scope.getBookOneHeader(id).headerLong;
         $scope.chapterIds = $scope.bookOne.getChapterIdsInBook(id);
