@@ -1,4 +1,5 @@
 import book from "./modules/BookModule";
+import util from "./modules/UtilModule";
 
 class App {
   constructor(opts) {
@@ -77,3 +78,23 @@ var app = new App({
 
 var webApp = angular.module("webApp", []);
 webApp.controller("AppController", app.ngController);
+
+// jQuery magic
+$(() => {
+  var resizeVersesContainer = function() {
+    if ($(window).width() <= 600) {
+      $(".verses-wrapper .col").css({
+        height: ($(window).height()/2)-50,
+        overflow: "auto"
+      });
+    } else {
+      $(".verses-wrapper .col").css({
+        height: "100%",
+        overflow: "inherit"
+      });
+    }
+  };
+  
+  $(window).resize(util.TimeUtil().debouncer(resizeVersesContainer, 1000));
+  resizeVersesContainer();
+});
