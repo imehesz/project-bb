@@ -4,6 +4,19 @@
   <meta charset="UTF-8">
   <title></title>
 
+  <style>
+    .book, .chapter, .verse {
+      display: inline-block;
+      margin-right: 5px;
+    } 
+
+    .verse sup {
+      color: #aaa;
+      font-size: 8px;
+      margin-right: 2px;
+    }
+  </style>
+
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="libs/taffydb/taffy.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
@@ -13,19 +26,23 @@
   <div ng-controller="AppController">
     <h1>{{moo}}</h1>
 
-    <div id="book1">
-      <div ng-repeat="bookId in bookOne.getBookIds()">
-        <a href="#/{{bookId}}" ng-click="setBookId(bookId)">{{getBookOneHeader(bookId).headerShort||getBookOneHeader(bookId).headerLong||bookId}}</a>
+    <div id="book1" class="book-wrapper">
+      <div class="book" ng-repeat="bookId in bookOne.getBookIds()">
+        <a href="#/{{bookId}}" ng-click="setBookId(bookId)">{{getBookOneHeader(bookId).headerShort||getBookOneHeader(bookId).headerLong|limitTo:4||bookId}}</a>
       </div>
-      <div ng-repeat="chapterId in chapterIds">
-        <a href="#/{{selectedBookId}}/{{chapterId}}" ng-click="setChapterId(chapterId)">{{chapterId}}</a>
+      <div>
+        <div class="chapter" ng-repeat="chapterId in chapterIds">
+          <a href="#/{{selectedBookId}}/{{chapterId}}" ng-click="setChapterId(chapterId)">{{chapterId}}</a>
+        </div>
       </div>
-      <div ng-repeat="verse in bookOneVerses">
-        <sup>{{verse.verseId}}</sup>{{verse.text}} 
-      </div>
-      <hr />
-      <div ng-repeat="verse in bookTwoVerses">
-        <sup>{{verse.verseId}}</sup>{{verse.text}} 
+      <div class="verses-wrapper">
+        <div class="verse" ng-repeat="verse in bookOneVerses">
+          <sup>{{verse.verseId}}</sup>{{verse.text}} 
+        </div>
+        <hr />
+        <div class="verse" ng-repeat="verse in bookTwoVerses">
+          <sup>{{verse.verseId}}</sup>{{verse.text}} 
+        </div>
       </div>
     </div>
   </div>

@@ -8,7 +8,7 @@ class App {
   }
 
   ngController ($scope) {
-    $scope.moo = "baa";
+    $scope.moo = "loading ...";
     $scope.selectedBookId = 0;
     $scope.selectedChapterId = 0;
 
@@ -16,6 +16,7 @@ class App {
       language: app.bookOneId || "asv", 
       loadCallback: function() {
         $scope.bookOne = this;
+        if ($scope.bookOne && $scope.bookTwo) $scope.moo = "baa";
         if (!$scope.$$phase) $scope.$apply();
       }
     });
@@ -24,6 +25,7 @@ class App {
       language: app.bookTwoId || "asv", 
       loadCallback: function() {
         $scope.bookTwo = this;
+        if ($scope.bookOne && $scope.bookTwo) $scope.moo = "baa";
         if (!$scope.$$phase) $scope.$apply();
       }
     });
@@ -50,6 +52,7 @@ class App {
       $scope.resetVerses();
       $scope.selectedBookId = id || 0;
       if ($scope.selectedBookId) {
+        $scope.moo = $scope.getBookOneHeader(id).headerLong;
         $scope.chapterIds = $scope.bookOne.getChapterIdsInBook(id);
       }
     }
@@ -57,6 +60,8 @@ class App {
     $scope.setChapterId = function(id) {
       $scope.selectedChapterId = id || 0;
       if ($scope.selectedChapterId) {
+        // TODO make this better
+        $scope.moo = $scope.getBookOneHeader($scope.selectedBookId).headerLong + " " + id;
         $scope.bookOneVerses = $scope.bookOne.getVersesInChapter($scope.selectedBookId, $scope.selectedChapterId);
         $scope.bookTwoVerses = $scope.bookTwo.getVersesInChapter($scope.selectedBookId, $scope.selectedChapterId);
       }
@@ -65,8 +70,8 @@ class App {
 }
 
 var app = new App({
-  bookOne: "hun",
-  bookTwo: "asv"
+  bookOne: "asv",
+  bookTwo: "hun"
 });
 
 var webApp = angular.module("webApp", []);
