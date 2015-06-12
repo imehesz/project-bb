@@ -22,9 +22,9 @@ class BookModule {
       }
     }
     this.dbi[dbStr] = this.dbi.taffy();
-    this.dbi[dbStr].store(dbStr)
+    //this.dbi[dbStr].store(dbStr)
     this.dbi[dbStr+"_headers"] = this.dbi.taffy();
-    this.dbi[dbStr+"_headers"].store(dbStr+"_headers");
+    //this.dbi[dbStr+"_headers"].store(dbStr+"_headers");
 
     if(!this.dbi[dbStr]().first()) {
       // we only fire the ajax call if it's a possibility
