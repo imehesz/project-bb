@@ -13,16 +13,28 @@ module.exports = {
   },
 
   readAll: function(req, res) {
-    return res.json({
-      todo: "return all books"
-    });
+    var retObj = {
+      status: "fail"
+    };
+    Book.setLanguage(req.session.book.language);
+    var books = Book.getBooks();
+
+    if (books) {
+      retObj.books = books;
+      retObj.status = "success";
+    }
+    return res.json(retObj);
   },
 
   readBook: function(req, res) {
     var bookId = req.param("bookId");
-    var retObj = {};
+    var retObj = {
+      status: "fail"
+    };
+    Book.setLanguage(req.session.book.language);
     if (bookId) {
-      retObj.todo = "return all chapters for book: " + bookId;
+      retObj.chapters = Book.getChaptersByBookId(bookId);
+      retObj.status = "success";
     }
 
     return res.json(retObj);
