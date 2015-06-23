@@ -6,17 +6,10 @@
  */
 
 module.exports = {
-  read: function(req, res) {
-    return res.json({
-      todo: "n/a"
-    });
-  },
-
   readAll: function(req, res) {
     var retObj = {
       status: "fail"
     };
-    Book.setLanguage(req.session.book.language);
     var books = Book.getBooks();
 
     if (books) {
@@ -31,9 +24,8 @@ module.exports = {
     var retObj = {
       status: "fail"
     };
-    Book.setLanguage(req.session.book.language);
     if (bookId) {
-      retObj.chapters = Book.getChaptersByBookId(bookId);
+      retObj.chapters = Book.getChapters(bookId);
       retObj.status = "success";
     }
 
@@ -43,13 +35,13 @@ module.exports = {
   readChapter: function(req, res) {
     var bookId = req.param("bookId");
     var chapterId = req.param("chapterId");
-    var verseId = req.param("verseId");
-    var retObj = {};
+    var retObj = {
+      status: "fail"
+    };
 
-    if (bookId && chapterId && verseId) {
-      retObj.todo = "return all chapters in book: " + bookId + " chapter " + chapterId + " and jump to verse " + verseId;
-    } else if (bookId && chapterId) {
-      retObj.todo = "return all chapters in book: " + bookId + " chapter " + chapterId;
+    if (bookId && chapterId) {
+      retObj.verses = Book.getVerses(bookId, chapterId);
+      retObj.status = "success";
     }
 
     return res.json(retObj);

@@ -47,6 +47,7 @@ module.exports.routes = {
   ***************************************************************************/
 
   "/book/": "BookController.readAll",
+  "/book/headers": "BookController.readAll",
   "/book/:bookId": "BookController.readBook",
   "/book/:bookId/:chapterId": "BookController.readChapter",
   "/book/:bookId/:chapterId/:verseId": "BookController.readChapter"

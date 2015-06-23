@@ -12,21 +12,36 @@ module.exports = {
     return chapters;
   },
 
-  getChaptersByBookId: function(bookId) {
+  getChapters: function(bookId) {
     var chapters = [];
     var verses = require(dataPath + this.getLanguage() + ".json");
 
     if (verses) {
-      console.log("got verses", verses[0].bookId == bookId);
+      // TODO maybe eventually include OT NT etc
       verses.map(function(verse){
-        if (verse.bookId == bookId) {
+        if (verse.bookId == bookId && !chapters[verse.chapterId]) {
           chapters[verse.chapterId] = verse.chapterId;
         }
       });
     }
 
+    // cleanup
     return chapters.filter(function(e) {
       return e;
     });
+  },
+
+  getVerses: function(bookId, chapterId) {
+    var verses = [];
+    var tmpVerses = require(dataPath + this.getLanguage() + ".json");
+    if (tmpVerses) {
+      tmpVerses.map(function(verse){
+        if (verse.bookId == bookId && verse.chapterId == chapterId) {
+          verses.push(verse);
+        }
+      });
+    }
+
+    return verses;
   }
 }
