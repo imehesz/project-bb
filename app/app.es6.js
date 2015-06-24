@@ -13,59 +13,65 @@ class App {
     $scope.selectedBookId = 0;
     $scope.selectedChapterId = 0;
 
-    new book({
-      language: app.bookOneId || "asv", 
-      loadCallback: function() {
-        $scope.bookOne = this;
-        if ($scope.bookOne && $scope.bookTwo) $scope.moo = "baa";
-        if (!$scope.$$phase) $scope.$apply();
-      }
-    });
+    $scope.bookOne = new book({ 
+                          language: app.bookOneId || "asv",
+                          ngScope: $scope
+                         });
 
-    new book({
-      language: app.bookTwoId || "asv", 
-      loadCallback: function() {
-        $scope.bookTwo = this;
-        if ($scope.bookOne && $scope.bookTwo) $scope.moo = "baa";
-        if (!$scope.$$phase) $scope.$apply();
-      }
-    });
+    $scope.bookTwo = new book({ 
+                          language: app.bookTwoId || "asv",
+                          ngScope: $scope
+                         });
 
-    $scope.getBookHeader = function(bookObj, bookId) {
-      let results = bookObj.getHeaderById(bookId);
+    let getBookHeader = function(bookObj, bookId) {
+      let results = bookObj.headers.filter((e) => {
+        return e.bookId == bookId;
+      });
       return results && results.length ? results[0] : null;
     };
 
     $scope.getBookOneHeader = function(id) {
-      return $scope.getBookHeader($scope.bookOne, id);
+      return getBookHeader($scope.bookOne, id);
     };
 
     $scope.getBookTwoHeader = function(id) {
-      return $scope.getBookHeader($scope.bookTwo, id);
+      return getBookHeader($scope.bookTwo, id);
     }
 
-    $scope.resetVerses = function() {
-      $scope.bookOneVerses = [];
-      $scope.bookTwoVerses = [];
+    let resetVerses = function() {
+      $scope.bookOne.setVerses([]);
+      $scope.bookTwo.setVerses([]);
+    }
+
+    let resetChapters = function() {
+      $scope.bookOne.setChapters([]);
+      $scope.bookTwo.setChapters([]);
+    }
+
+    let resetChaptersAndVerses = function() {
+      resetVerses();
+      resetChapters();
     }
 
     $scope.setBookId = function(id) {
-      $scope.resetVerses();
+      $scope.moo = "Select ...";
+      resetChaptersAndVerses();
       $scope.selectedBookId = id || 0;
       $scope.chapterIds = []; // resetting chapterIds
       if ($scope.selectedBookId) {
         $scope.moo = $scope.getBookOneHeader(id).headerLong;
-        $scope.chapterIds = $scope.bookOne.getChapterIdsInBook(id);
+        $scope.bookOne.loadChapters(id);
       }
     }
 
     $scope.setChapterId = function(id) {
+      resetVerses();
       $scope.selectedChapterId = id || 0;
       if ($scope.selectedChapterId) {
         // TODO make this better
         $scope.moo = $scope.getBookOneHeader($scope.selectedBookId).headerLong + " " + id;
-        $scope.bookOneVerses = $scope.bookOne.getVersesInChapter($scope.selectedBookId, $scope.selectedChapterId);
-        $scope.bookTwoVerses = $scope.bookTwo.getVersesInChapter($scope.selectedBookId, $scope.selectedChapterId);
+        $scope.bookOneVerses = $scope.bookOne.loadVerses($scope.selectedBookId, id);
+        $scope.bookTwoVerses = $scope.bookTwo.loadVerses($scope.selectedBookId, id);
       }
     }
   }

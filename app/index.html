@@ -27,22 +27,22 @@
       <a ng-show="selectedBookId&&!selectedChapterId" ng-click="setBookId(0)" class="btn-floating btn-small red bb-btn-back"><i class="large mdi-hardware-keyboard-arrow-left"></i></a>
   
       <div id="book1" class="book-wrapper">
-        <div ng-show="!selectedBookId" class="book" ng-repeat="bookId in bookOne.getBookIds()">
-          <a class="btn-flat"href="#/{{bookId}}" ng-click="setBookId(bookId)">{{getBookOneHeader(bookId).headerShort||getBookOneHeader(bookId).headerLong|limitTo:4||bookId}}</a>
+        <div ng-show="!selectedBookId" class="book" ng-repeat="header in bookOne.getHeaders()">
+          <a class="btn-flat"href="#/{{header.bookId}}" ng-click="setBookId(header.bookId)">{{header.headerShort||header.headerLong|limitTo:4||header.bookId}}</a>
         </div>
         <div ng-show="!selectedChapterId">
-          <div class="chapter" ng-repeat="chapterId in chapterIds">
+          <div class="chapter" ng-repeat="chapterId in bookOne.getChapters()">
             <a class="btn-flat" href="#/{{selectedBookId}}/{{chapterId}}" ng-click="setChapterId(chapterId)">{{chapterId}}</a>
           </div>
         </div>
         <div class="row verses-wrapper">
           <div class="col s12 m6">
-            <div class="verse" ng-repeat="verse in bookOneVerses">
+            <div class="verse" ng-repeat="verse in bookOne.getVerses()">
               <sup>{{verse.verseId}}</sup>{{verse.text}} 
             </div>
           </div>
           <div class="col s12 m6">
-            <div class="verse" ng-repeat="verse in bookTwoVerses">
+            <div class="verse" ng-repeat="verse in bookTwo.getVerses()">
               <sup>{{verse.verseId}}</sup>{{verse.text}} 
             </div>
           </div>

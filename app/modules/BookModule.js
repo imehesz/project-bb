@@ -4,108 +4,94 @@ let BOOKS = ["asv", "hun", "esp"];
 
 class BookModule {
   constructor (options) {
+     this.headers = [];
+     this.books = [];
+     this.chapters = [];
+     this.verses = [];
+
      this.dbPrefix = options.dbPrefix || "bb_";
      this.language = options.language || "asv";
-     this.loadCallback = options.loadCallback;
-
-     this.dbi = DbModule.instance;
-     this.loadBooks();
+     // TODO not sure about this one
+     this.ngScope = options.ngScope || null;
+     
+     this.loadHeaders();
   }
 
-  loadBooks() {
-    let t = this;
-    let dbStr = this.dbPrefix + this.language;
-    let cbHandler = function() {
-      if (t.loadCallback && typeof t.loadCallback == "function") {
-        // we're calling the callback with the BookModule JS scope
-        t.loadCallback.apply(t);
-      }
-    }
-    this.dbi[dbStr] = this.dbi.taffy();
-    //this.dbi[dbStr].store(dbStr)
-    this.dbi[dbStr+"_headers"] = this.dbi.taffy();
-    //this.dbi[dbStr+"_headers"].store(dbStr+"_headers");
+  getHeaders () {
+    return this.headers;
+  }
 
-    if(!this.dbi[dbStr]().first()) {
-      // we only fire the ajax call if it's a possibility
-      if (BOOKS.indexOf(this.language) > -1) {
-        $.ajax({
-          type: "GET",
-          dataType: "json",
-          url: "/data/books/" + this.language + ".json",
-          success: (data) => {
-            if (data && data.length) {
-              data.forEach((row) => {
-                this.dbi[dbStr].insert(row);
-              });
-            }
+  getChapters () {
+    return this.chapters;
+  }
 
-            // let's try to load a header file
-            if (!this.dbi[dbStr+"_headers"]().first()) {
-              $.ajax({
-                type: "GET",
-                dataType: "json",
-                url: "/data/books/" + this.language + "-headers.json",
-                success: (data) => {
-                  if (data && data.length) {
-                    data.forEach((row) => {
-                      this.dbi[dbStr+"_headers"].insert(row);
-                    });
-                  }
-  
-                  cbHandler();
-                },
-                error: (e) => {
-                  console.log("No headers found for this language: " + this.language);
-                  console.log(e);
-                  cbHandler();
-                }
-              });
-            } else {
-              cbHandler();
-            }
-          },
-          error: (e) => {
-            console.log("MEEEEEEEEEK", e);
+  setChapters (chapters) {
+    this.chapters = chapters;
+  }
+
+  getVerses () {
+    return this.verses;
+  }
+
+  setVerses (verses) {
+    this.verses = verses;
+  }
+
+  loadHeaders () {
+    $.ajax({
+      type: "GET",
+      dataType: "json",
+      //url: "/data/books/" + this.language + ".json",
+      url: "http://198.50.140.69:1337/book/?lang=" + this.language,
+      success: (data) => {
+        if (data && data.books && data.books.length) {
+          this.headers = data.books;
+          if (this.ngScope) {
+            this.ngScope.moo = "Select ...";
+            this.ngScope.$apply();
           }
-        });
+        }
+      },
+      error: (e) => {
+        console.log("MEEEEEEEEEK", e);
       }
-    } else {
-      // we should have everything, let's just call the callback
-      cbHandler();
-    }
+    });
   }
 
-  db(opts) {
-    return this.dbi[this.dbPrefix+this.language](opts);
+  loadChapters (bookId) {
+    $.ajax({
+      type: "get",
+      datatype: "json",
+      //url: "/data/books/" + this.language + ".json",
+      url: "http://198.50.140.69:1337/book/" + bookId + "/?lang=" + this.language,
+      success: (data) => {
+        if (data && data.chapters && data.chapters.length) {
+          this.setChapters(data.chapters);
+          if (this.ngScope) this.ngScope.$apply();
+        }
+      },
+      error: (e) => {
+        console.log("meeeeeeeeek", e);
+      }
+    });
   }
 
-  // the database access for the headers
-  dbh(opts) {
-    return this.dbi[this.dbPrefix+this.language+"_headers"](opts);
-  }
-
-  getBookIds() {
-    return this.db().order("bookId").distinct("bookId");
-  }
-
-  getChapterIdsInBook(bookId) {
-    return this.db({bookId:bookId}).order("chapterId").distinct("chapterId");
-  }
-
-  getVerseIdsInChapter(bookId, chapterId) {
-    return this.db({bookId:bookId, chapterId: chapterId}).order("verseId").distinct("verseId");
-  }
-
-  getVersesInChapter(bookId, chapterId) {
-    return this.db({bookId:bookId, chapterId: chapterId}).order("verseId").get();
-  }
-  
-  getHeaderById(bookId) {
-    // cheeck if we have headers
-    if (this.dbi[this.dbPrefix+this.language +"_headers"]) {
-      return this.dbh({bookId: bookId}).get();
-    }
+  loadVerses (bookId, chapterId) {
+    $.ajax({
+      type: "get",
+      datatype: "json",
+      //url: "/data/books/" + this.language + ".json",
+      url: "http://198.50.140.69:1337/book/" + bookId + "/" + chapterId + "?lang=" + this.language,
+      success: (data) => {
+        if (data && data.verses && data.verses.length) {
+          this.setVerses(data.verses);
+          if (this.ngScope) this.ngScope.$apply();
+        }
+      },
+      error: (e) => {
+        console.log("meeeeeeeeek", e);
+      }
+    });
   }
 }
 
