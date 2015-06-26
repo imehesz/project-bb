@@ -79,7 +79,7 @@ class App {
 
 var app = new App({
   bookOne: "asv",
-  bookTwo: "hun"
+  bookTwo: "nhun"
 });
 
 var webApp = angular.module("webApp", []);

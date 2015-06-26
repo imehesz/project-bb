@@ -1,5 +1,5 @@
 module.exports = function(req, res, next) {
-  var languages = ["asv", "hun"];
+  var languages = ["asv", "hun", "nhun", "greek"];
   if (req && !req.session.book) {
     req.session.book = {};
   }
