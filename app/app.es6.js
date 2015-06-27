@@ -9,7 +9,7 @@ class App {
   }
 
   ngController ($scope) {
-    $scope.moo = "loading ...";
+    $scope.titleOne = "loading ...";
     $scope.selectedBookId = 0;
     $scope.selectedChapterId = 0;
 
@@ -54,12 +54,14 @@ class App {
     }
 
     $scope.setBookId = function(id) {
-      $scope.moo = "Select ...";
+      $scope.titleOne = "Select ...";
+      $scope.titleTwo = "";
       resetChaptersAndVerses();
       $scope.selectedBookId = id || 0;
       $scope.chapterIds = []; // resetting chapterIds
       if ($scope.selectedBookId) {
-        $scope.moo = $scope.getBookOneHeader(id).headerLong;
+        $scope.titleOne = $scope.getBookOneHeader(id).headerLong;
+        $scope.titleTwo = $scope.getBookTwoHeader(id).headerLong;
         $scope.bookOne.loadChapters(id);
       }
     }
@@ -69,7 +71,7 @@ class App {
       $scope.selectedChapterId = id || 0;
       if ($scope.selectedChapterId) {
         // TODO make this better
-        $scope.moo = $scope.getBookOneHeader($scope.selectedBookId).headerLong + " " + id;
+        $scope.titleOne = $scope.getBookOneHeader($scope.selectedBookId).headerLong + " " + id;
         $scope.bookOneVerses = $scope.bookOne.loadVerses($scope.selectedBookId, id);
         $scope.bookTwoVerses = $scope.bookTwo.loadVerses($scope.selectedBookId, id);
       }

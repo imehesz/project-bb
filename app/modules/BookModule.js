@@ -47,7 +47,7 @@ class BookModule {
         if (data && data.books && data.books.length) {
           this.headers = data.books;
           if (this.ngScope) {
-            this.ngScope.moo = "Select ...";
+            this.ngScope.titleOne = "Select ...";
             this.ngScope.$apply();
           }
         }

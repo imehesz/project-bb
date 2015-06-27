@@ -14,8 +14,9 @@
 }
 
 .action-wrapper {
-  float:right;
-  margin-top:-71px;
+  position: absolute;
+  right: 20px;
+  top: 40px;
 }
 
 .bb-btn-back {}
@@ -27,6 +28,6 @@
 
 @media only screen and (max-width : 600px){
   .action-wrapper {
-    margin-top:-40px;
+    top: 5px;
   }
 }
