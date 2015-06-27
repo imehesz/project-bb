@@ -23,8 +23,13 @@
       <h1 class="hide-on-small-only">{{moo}}</h1>
       <p class="hide-on-med-and-up">{{moo}}</p>
 
-      <a ng-show="selectedChapterId" ng-click="setChapterId(0)" class="btn-floating btn-small red bb-btn-back"><i class="large mdi-hardware-keyboard-arrow-left"></i></a>
-      <a ng-show="selectedBookId&&!selectedChapterId" ng-click="setBookId(0)" class="btn-floating btn-small red bb-btn-back"><i class="large mdi-hardware-keyboard-arrow-left"></i></a>
+      <div class="action-wrapper">
+        <a ng-show="selectedChapterId" ng-click="setChapterId(0)" class="btn-floating btn-small red bb-btn-back"><i class="large mdi-hardware-keyboard-arrow-left"></i></a>
+        <a ng-show="selectedBookId&&!selectedChapterId" ng-click="setBookId(0)" class="btn-floating btn-small red bb-btn-back"><i class="large mdi-hardware-keyboard-arrow-left"></i></a>
+        <a class="btn-floating btn-small grey bb-btn-settings"><i class="large mdi-action-settings"></i></a>
+      </div>
+
+
   
       <div id="book1" class="book-wrapper">
         <div ng-show="!selectedBookId" class="book" ng-repeat="header in bookOne.getHeaders()">

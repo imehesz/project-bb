@@ -13,14 +13,20 @@
   margin-right: 2px;
 }
 
-.bb-btn-back {
+.action-wrapper {
   float:right;
   margin-top:-71px;
 }
 
+.bb-btn-back {}
+
+.bb-btn-settings {
+  margin-left: 10px;
+}
+
+
 @media only screen and (max-width : 600px){
-  .bb-btn-back {
-    float:right;
+  .action-wrapper {
     margin-top:-40px;
   }
 }
