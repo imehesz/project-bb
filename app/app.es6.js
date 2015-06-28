@@ -17,6 +17,10 @@ class App {
       {
         lang: "nhun",
         desc: "Hungarian (new)"
+      },
+      {
+        lang: "greek",
+        desc: "Greek"
       }
     ];
 
