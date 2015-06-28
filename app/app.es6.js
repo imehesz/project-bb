@@ -15,6 +15,10 @@ class App {
         desc: "American Standard Version (ASV)",
       },
       {
+        lang: "kjv",
+        desc: "King James Version (KJV)",
+      },
+      {
         lang: "nhun",
         desc: "Hungarian (new)"
       },
