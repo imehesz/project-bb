@@ -1,0 +1,199 @@
+[{
+  "bookId": 1,
+    "headerLong": "Genesis"
+}, {
+  "bookId": 2,
+    "headerLong": "Exodus"
+}, {
+  "bookId": 3,
+    "headerLong": "Leviticus"
+}, {
+  "bookId": 4,
+    "headerLong": "Numbers"
+}, {
+  "bookId": 5,
+    "headerLong": "Deuteronomy"
+}, {
+  "bookId": 6,
+    "headerLong": "Joshua"
+}, {
+  "bookId": 7,
+    "headerLong": "Judges"
+}, {
+  "bookId": 8,
+    "headerLong": "Ruth"
+}, {
+  "bookId": 9,
+    "headerLong": "1 Samuel"
+}, {
+  "bookId": 10,
+    "headerLong": "2 Samuel"
+}, {
+  "bookId": 11,
+    "headerLong": "1 Kings"
+}, {
+  "bookId": 12,
+    "headerLong": "2 Kings"
+}, {
+  "bookId": 13,
+    "headerLong": "1 Chronicles"
+}, {
+  "bookId": 14,
+    "headerLong": "2 Chronicles"
+}, {
+  "bookId": 15,
+    "headerLong": "Ezra"
+}, {
+  "bookId": 16,
+    "headerLong": "Nehemiah"
+}, {
+  "bookId": 17,
+    "headerLong": "Esther"
+}, {
+  "bookId": 18,
+    "headerLong": "Job"
+}, {
+  "bookId": 19,
+    "headerLong": "Psalms"
+}, {
+  "bookId": 20,
+    "headerLong": "Proverbs"
+}, {
+  "bookId": 21,
+    "headerLong": "Ecclesiastes"
+}, {
+  "bookId": 22,
+    "headerLong": "Song of Solomon"
+}, {
+  "bookId": 23,
+    "headerLong": "Isaiah"
+}, {
+  "bookId": 24,
+    "headerLong": "Jeremiah"
+}, {
+  "bookId": 25,
+    "headerLong": "Lamentations"
+}, {
+  "bookId": 26,
+    "headerLong": "Ezekiel"
+}, {
+  "bookId": 27,
+    "headerLong": "Daniel"
+}, {
+  "bookId": 28,
+    "headerLong": "Hosea"
+}, {
+  "bookId": 29,
+    "headerLong": "Joel"
+}, {
+  "bookId": 30,
+    "headerLong": "Amos"
+}, {
+  "bookId": 31,
+    "headerLong": "Obadiah"
+}, {
+  "bookId": 32,
+    "headerLong": "Jonah"
+}, {
+  "bookId": 33,
+    "headerLong": "Micah"
+}, {
+  "bookId": 34,
+    "headerLong": "Nahum"
+}, {
+  "bookId": 35,
+    "headerLong": "Habakkuk"
+}, {
+  "bookId": 36,
+    "headerLong": "Zephaniah"
+}, {
+  "bookId": 37,
+    "headerLong": "Haggai"
+}, {
+  "bookId": 38,
+    "headerLong": "Zechariah"
+}, {
+  "bookId": 39,
+    "headerLong": "Malachi"
+}, {
+  "bookId": 40,
+    "headerLong": "Matthew"
+}, {
+  "bookId": 41,
+    "headerLong": "Mark"
+}, {
+  "bookId": 42,
+    "headerLong": "Luke"
+}, {
+  "bookId": 43,
+    "headerLong": "John"
+}, {
+  "bookId": 44,
+    "headerLong": "Acts"
+}, {
+  "bookId": 45,
+    "headerLong": "Romans"
+}, {
+  "bookId": 46,
+    "headerLong": "1 Corinthians"
+}, {
+  "bookId": 47,
+    "headerLong": "2 Corinthians"
+}, {
+  "bookId": 48,
+    "headerLong": "Galatians"
+}, {
+  "bookId": 49,
+    "headerLong": "Ephesians"
+}, {
+  "bookId": 50,
+    "headerLong": "Philippians"
+}, {
+  "bookId": 51,
+    "headerLong": "Colossians"
+}, {
+  "bookId": 52,
+    "headerLong": "1 Thessalonians"
+}, {
+  "bookId": 53,
+    "headerLong": "2 Thessalonians"
+}, {
+  "bookId": 54,
+    "headerLong": "1 Timothy"
+}, {
+  "bookId": 55,
+    "headerLong": "2 Timothy"
+}, {
+  "bookId": 56,
+    "headerLong": "Titus"
+}, {
+  "bookId": 57,
+    "headerLong": "Philemon"
+}, {
+  "bookId": 58,
+    "headerLong": "Hebrews"
+}, {
+  "bookId": 59,
+    "headerLong": "James"
+}, {
+  "bookId": 60,
+    "headerLong": "1 Peter"
+}, {
+  "bookId": 61,
+    "headerLong": "2 Peter"
+}, {
+  "bookId": 62,
+    "headerLong": "1 John"
+}, {
+  "bookId": 63,
+    "headerLong": "2 John"
+}, {
+  "bookId": 64,
+    "headerLong": "3 John"
+}, {
+  "bookId": 65,
+    "headerLong": "Jude"
+}, {
+  "bookId": 66,
+    "headerLong": "Revelation"
+}]
