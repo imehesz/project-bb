@@ -9,6 +9,17 @@ class App {
   }
 
   ngController ($scope) {
+    $scope.choices = [
+      {
+        lang: "asv",
+        desc: "American Standard Version (ASV)",
+      },
+      {
+        lang: "nhun",
+        desc: "Hungarian (new)"
+      }
+    ];
+
     $scope.titleOne = "loading ...";
     $scope.selectedBookId = 0;
     $scope.selectedChapterId = 0;
@@ -22,6 +33,33 @@ class App {
                           language: app.bookTwoId || "asv",
                           ngScope: $scope
                          });
+
+    $scope.changeBookOne = function() {
+      $scope.bookOne = new book({ 
+                            language: $scope.selectedBookOne.lang,
+                            ngScope: $scope
+                           });
+      }
+
+    $scope.changeBookTwo = function() {
+      $scope.bookTwo = new book({ 
+                            language: $scope.selectedBookTwo.lang,
+                            ngScope: $scope
+                           });
+
+    }
+
+    let bookOneIdx;
+    $scope.choices.map(function(e,i){
+      if (e.lang == $scope.bookOne.language) bookOneIdx = i;
+    });
+    $scope.selectedBookOne = $scope.choices[bookOneIdx];
+
+    let bookTwoIdx;
+    $scope.choices.map(function(e,i){
+      if (e.lang == $scope.bookTwo.language) bookTwoIdx = i;
+    });
+    $scope.selectedBookTwo = $scope.choices[bookTwoIdx];
 
     let getBookHeader = function(bookObj, bookId) {
       let results = bookObj.headers.filter((e) => {

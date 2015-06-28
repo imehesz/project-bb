@@ -27,10 +27,26 @@
       <div class="action-wrapper">
         <a ng-show="selectedChapterId" ng-click="setChapterId(0)" class="btn-floating btn-small red bb-btn-back"><i class="large mdi-hardware-keyboard-arrow-left"></i></a>
         <a ng-show="selectedBookId&&!selectedChapterId" ng-click="setBookId(0)" class="btn-floating btn-small red bb-btn-back"><i class="large mdi-hardware-keyboard-arrow-left"></i></a>
-        <a class="btn-floating btn-small grey bb-btn-settings"><i class="large mdi-action-settings"></i></a>
+        <a data-activates="bb-settings" class="button-collapse btn-floating btn-small grey bb-btn-settings"><i class="large mdi-action-settings"></i></a>
       </div>
 
-
+      <div class="nav-wrapper">
+        <ul class="side-nav" id="bb-settings">
+          <li><h4>Settings</h4></li>
+          <li>
+            <div>
+              <label>From Book</label>
+              <select class="browser-default" ng-model="selectedBookOne" ng-options="lang.desc for lang in choices" ng-change="changeBookOne()"> </select>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>To Book</label>
+              <select class="browser-default" ng-model="selectedBookTwo" ng-options="lang.desc for lang in choices" ng-change="changeBookTwo()"> </select>
+            </div>
+          </li>
+        </ul>
+      </div>
   
       <div id="book1" class="book-wrapper">
         <div ng-show="!selectedBookId" class="book" ng-repeat="header in bookOne.getHeaders()">
@@ -58,5 +74,11 @@
   </div> <!-- .container -->
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>
+
+  <script language="javascript">
+    $(function(){
+      $(".button-collapse").sideNav();
+    });
+  </script>
 </body>
 </html>
