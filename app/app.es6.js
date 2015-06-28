@@ -24,6 +24,8 @@ class App {
       }
     ];
 
+    $scope.showSecondBook = true;
+
     $scope.titleOne = "loading ...";
     $scope.selectedBookId = 0;
     $scope.selectedChapterId = 0;
@@ -131,8 +133,10 @@ webApp.controller("AppController", app.ngController);
 
 // jQuery magic
 $(() => {
-  var resizeVersesContainer = function() {
-    if ($(window).width() <= 600) {
+  let resizeVersesContainer = function() {
+    let isSecondBookVisible = $(".second-book").is(":visible");
+
+    if ($(window).width() <= 600 && isSecondBookVisible) {
       $(".verses-wrapper .col").css({
         height: ($(window).height()/2)-50,
         overflow: "auto"

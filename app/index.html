@@ -45,6 +45,19 @@
               <select class="browser-default" ng-model="selectedBookTwo" ng-options="lang.desc for lang in choices" ng-change="changeBookTwo()"> </select>
             </div>
           </li>
+          <li>
+            <div>
+              <label>Show Second Book</label>
+              <div class="switch">
+                <label>
+                  Off
+                  <input type="checkbox" ng-model="showSecondBook">
+                  <span class="lever"></span>
+                  On
+                </label>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
   
@@ -58,12 +71,12 @@
           </div>
         </div>
         <div class="row verses-wrapper">
-          <div class="col s12 m6">
+          <div class="col s12 first-book" ng-class="{'m6': showSecondBook}">
             <div class="verse" ng-repeat="verse in bookOne.getVerses()">
               <sup>{{verse.verseId}}</sup>{{verse.text}} 
             </div>
           </div>
-          <div class="col s12 m6">
+          <div ng-show="showSecondBook" class="col s12 second-book" ng-class="{'m6': showSecondBook}">
             <div class="verse" ng-repeat="verse in bookTwo.getVerses()">
               <sup>{{verse.verseId}}</sup>{{verse.text}} 
             </div>
