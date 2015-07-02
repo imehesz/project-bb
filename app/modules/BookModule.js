@@ -1,7 +1,3 @@
-import DbModule from "./DbModule";
-
-let BOOKS = ["asv", "hun", "esp"];
-
 class BookModule {
   constructor (options) {
      this.headers = [];
@@ -9,10 +5,12 @@ class BookModule {
      this.chapters = [];
      this.verses = [];
 
-     this.dbPrefix = options.dbPrefix || "bb_";
      this.language = options.language || "asv";
      // TODO not sure about this one
      this.ngScope = options.ngScope || null;
+     this.headersCallback = options.headersCallback || null;
+     this.chaptersCallback = options.chaptersCallback || null;
+     this.versesCallback = options.versesCallback || null;
      
      this.loadHeaders();
   }
@@ -46,10 +44,7 @@ class BookModule {
       success: (data) => {
         if (data && data.books && data.books.length) {
           this.headers = data.books;
-          if (this.ngScope) {
-            this.ngScope.titleOne = "Select ...";
-            this.ngScope.$apply();
-          }
+          if (this.headersCallback) this.headersCallback(data.books);
         }
       },
       error: (e) => {
@@ -59,15 +54,16 @@ class BookModule {
   }
 
   loadChapters (bookId) {
+    let t = this;
     $.ajax({
       type: "get",
       datatype: "json",
       //url: "/data/books/" + this.language + ".json",
       url: "http://198.50.140.69:1337/book/" + bookId + "/?lang=" + this.language,
-      success: (data) => {
+      success: function(data) {
         if (data && data.chapters && data.chapters.length) {
-          this.setChapters(data.chapters);
-          if (this.ngScope) this.ngScope.$apply();
+          t.setChapters(data.chapters);
+          if (t.chaptersCallback) t.chaptersCallback(data.chapters);
         }
       },
       error: (e) => {
@@ -77,15 +73,16 @@ class BookModule {
   }
 
   loadVerses (bookId, chapterId) {
+    let t = this;
     $.ajax({
       type: "get",
       datatype: "json",
       //url: "/data/books/" + this.language + ".json",
       url: "http://198.50.140.69:1337/book/" + bookId + "/" + chapterId + "?lang=" + this.language,
-      success: (data) => {
+      success: function(data) {
         if (data && data.verses && data.verses.length) {
-          this.setVerses(data.verses);
-          if (this.ngScope) this.ngScope.$apply();
+          t.setVerses(data.verses);
+          if (t.versesCallback) t.versesCallback();
         }
       },
       error: (e) => {

@@ -38,7 +38,7 @@ gulp.task("modules", function(){
 });
 
 gulp.task("copyIndex", function(){
-    gulp.src(["app/index.html"])
+    gulp.src(["app/index.html", "app/config.js"])
     .pipe(gulp.dest("target/"));
 });
 
@@ -58,7 +58,7 @@ gulp.task("watchJs", function(){
 
 // PROD
 gulp.task("depIndex", function(){
-    gulp.src(["app/index.html"])
+    gulp.src(["app/index.html", "app/config.js"])
     .pipe(gulp.dest("deploy/"));
 });
 

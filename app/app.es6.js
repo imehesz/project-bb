@@ -8,68 +8,69 @@ class App {
     this.bookTwoId = opts.bookTwo;
   }
 
-  ngController ($scope) {
-    $scope.choices = [
+  ngController ($scope, $route, $routeParams, $location) {
+    let MSG_LOADING = "Loading ...";
+    let MSG_SELECT = "Read ...";
+
+    let init = function() {
+      $scope.changeBookOne();
+      $scope.changeBookTwo();
+    }
+
+    $scope.choices = typeof BOOKS != "undefined" ? BOOKS : [
       {
         lang: "asv",
         desc: "American Standard Version (ASV)",
       },
       {
-        lang: "kjv",
-        desc: "King James Version (KJV)",
-      },
-      {
         lang: "nhun",
         desc: "Hungarian (new)"
       },
-      {
-        lang: "greek",
-        desc: "Greek"
-      }
     ];
 
     $scope.showSecondBook = true;
 
-    $scope.titleOne = "loading ...";
+    $scope.titleOne = MSG_LOADING;
     $scope.selectedBookId = 0;
     $scope.selectedChapterId = 0;
 
-    $scope.bookOne = new book({ 
-                          language: app.bookOneId || "asv",
-                          ngScope: $scope
-                         });
+    let headersCallback = function(headers) {
+      $scope.titleOne = $scope.titleOne == MSG_LOADING ? MSG_SELECT : $scope.titleOne;
+      $scope.$apply();
+    }
 
-    $scope.bookTwo = new book({ 
-                          language: app.bookTwoId || "asv",
-                          ngScope: $scope
-                         });
+    let chaptersCallback = function(chapters) {
+      $scope.$apply();
+    }
+
+    let versesCallback = function(verses) {
+      $scope.$apply();
+    }
 
     $scope.changeBookOne = function() {
       $scope.bookOne = new book({ 
-                            language: $scope.selectedBookOne.lang,
-                            ngScope: $scope
+                            language: $scope.selectedBookOne.lang || app.bookOneId || "asv",
+                            headersCallback: headersCallback,
+                            chaptersCallback: chaptersCallback,
+                            versesCallback: versesCallback
                            });
-      }
+      if ($scope.selectedBookId) $scope.setBookId($scope.selectedBookId, true);
+      if ($scope.selectedChapterId) $scope.setChapterId($scope.selectedChapterId);
+    }
 
     $scope.changeBookTwo = function() {
       $scope.bookTwo = new book({ 
-                            language: $scope.selectedBookTwo.lang,
-                            ngScope: $scope
+                            language: $scope.selectedBookTwo.lang || app.bookTwoId || "asv",
+                            headersCallback: headersCallback,
+                            chaptersCallback: chaptersCallback,
+                            versesCallback: versesCallback
                            });
-
+      if ($scope.selectedBookId) $scope.setBookId($scope.selectedBookId, true);
+      if ($scope.selectedChapterId) $scope.setChapterId($scope.selectedChapterId);
     }
 
-    let bookOneIdx;
-    $scope.choices.map(function(e,i){
-      if (e.lang == $scope.bookOne.language) bookOneIdx = i;
-    });
-    $scope.selectedBookOne = $scope.choices[bookOneIdx];
-
-    let bookTwoIdx;
-    $scope.choices.map(function(e,i){
-      if (e.lang == $scope.bookTwo.language) bookTwoIdx = i;
-    });
-    $scope.selectedBookTwo = $scope.choices[bookTwoIdx];
+    $scope.selectedBookOne = $scope.choices[0];
+    $scope.selectedBookTwo = $scope.choices[1];
 
     let getBookHeader = function(bookObj, bookId) {
       let results = bookObj.headers.filter((e) => {
@@ -101,15 +102,20 @@ class App {
       resetChapters();
     }
 
-    $scope.setBookId = function(id) {
-      $scope.titleOne = "Select ...";
-      $scope.titleTwo = "";
+    $scope.setBookId = function(id, keepTitles) {
+      if (!keepTitles) {
+        $scope.titleOne = MSG_SELECT;
+        $scope.titleTwo = "";
+      }
+
       resetChaptersAndVerses();
       $scope.selectedBookId = id || 0;
       $scope.chapterIds = []; // resetting chapterIds
       if ($scope.selectedBookId) {
-        $scope.titleOne = $scope.getBookOneHeader(id).headerLong;
-        $scope.titleTwo = $scope.getBookTwoHeader(id).headerLong;
+        let headerOne = $scope.getBookOneHeader(id);
+        let headerTwo = $scope.getBookTwoHeader(id);
+        $scope.titleOne = headerOne ? headerOne.headerLong : $scope.titleOne;
+        $scope.titleTwo = headerTwo ? headerTwo.headerLong : $scope.titleTwo;
         $scope.bookOne.loadChapters(id);
       }
     }
@@ -119,11 +125,13 @@ class App {
       $scope.selectedChapterId = id || 0;
       if ($scope.selectedChapterId) {
         // TODO make this better
-        $scope.titleOne = $scope.getBookOneHeader($scope.selectedBookId).headerLong + " " + id;
+        $scope.titleOne += " " + id;
         $scope.bookOneVerses = $scope.bookOne.loadVerses($scope.selectedBookId, id);
         $scope.bookTwoVerses = $scope.bookTwo.loadVerses($scope.selectedBookId, id);
       }
     }
+
+    init();
   }
 }
 
@@ -132,7 +140,7 @@ var app = new App({
   bookTwo: "nhun"
 });
 
-var webApp = angular.module("webApp", []);
+var webApp = angular.module("webApp", ["ngRoute"]);
 webApp.controller("AppController", app.ngController);
 
 // jQuery magic
