@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="webApp">
 <head>
   <meta charset="UTF-8">
   <title>Project BB</title>
@@ -19,12 +19,12 @@
   <script type="text/javascript" src="config.js"></script>
   <script type="text/javascript" src="app.js"></script>
 </head>
-<body ng-app="webApp">
-  <div ng-controller="AppController">
+<body ng-controller="AppController" class="theme" ng-class="config.theme.id">
+  <div>
     <div class="container">
       <h1 class="hide-on-small-only">{{titleOne}}</h1>
-      <h2 ng-show="showSecondBook" class="hide-on-small-only grey-text">{{titleTwo}}</h2>
-      <p class="hide-on-med-and-up">{{titleOne}} <span ng-show="showSecondBook" class="grey-text">{{titleTwo}}</span></p>
+      <h2 ng-show="showSecondBook" class="hide-on-small-only sub-title">{{titleTwo}}</h2>
+      <p class="hide-on-med-and-up">{{titleOne}} <span ng-show="showSecondBook" class="sub-title">{{titleTwo}}</span></p>
 
       <div class="action-wrapper">
         <a ng-show="selectedChapterId" ng-click="setChapterId(0)" class="btn-floating btn-small red bb-btn-back"><i class="large mdi-hardware-keyboard-arrow-left"></i></a>
@@ -38,13 +38,19 @@
           <li>
             <div>
               <label>From Book</label>
-              <select class="browser-default" ng-model="selectedBookOne" ng-options="lang.desc for lang in choices" ng-change="changeBookOne()"> </select>
+              <select class="browser-default" ng-model="selectedBookOne" ng-options="lang.desc for lang in languageOptions" ng-change="changeBookOne()"> </select>
             </div>
           </li>
           <li>
             <div>
               <label>To Book</label>
-              <select class="browser-default" ng-model="selectedBookTwo" ng-options="lang.desc for lang in choices" ng-change="changeBookTwo()"> </select>
+              <select class="browser-default" ng-model="selectedBookTwo" ng-options="lang.desc for lang in languageOptions" ng-change="changeBookTwo()"> </select>
+            </div>
+          </li>
+          <li>
+            <div>
+              <label>Theme</label>
+              <select class="browser-default" ng-model="config.theme" ng-options="theme.label for theme in themeOptions"> </select>
             </div>
           </li>
           <li>

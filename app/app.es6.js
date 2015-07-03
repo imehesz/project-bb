@@ -18,7 +18,9 @@ class App {
       $scope.updateTitles();
     }
 
-    $scope.choices = typeof BOOKS != "undefined" ? BOOKS : [
+    $scope.config = {};
+
+    $scope.languageOptions = typeof BOOKS != "undefined" ? BOOKS : [
       {
         lang: "asv",
         desc: "American Standard Version (ASV)",
@@ -28,6 +30,19 @@ class App {
         desc: "Hungarian (new)"
       },
     ];
+
+    $scope.themeOptions = typeof THEMES != "undefined" ? THEMES : [
+      {
+        id: "light",
+        label: "Light"
+      },
+      {
+        id: "dark",
+        label: "Dark"
+      }
+    ];
+
+    $scope.config.theme = $scope.themeOptions[0];
 
     $scope.updateTitles = function() {
       $scope.titleOne = MSG_LOADING;
@@ -81,8 +96,8 @@ class App {
       if ($scope.selectedChapterId) $scope.setChapterId($scope.selectedChapterId);
     }
 
-    $scope.selectedBookOne = $scope.choices[0];
-    $scope.selectedBookTwo = $scope.choices[1];
+    $scope.selectedBookOne = $scope.languageOptions[0];
+    $scope.selectedBookTwo = $scope.languageOptions[1];
 
     let getBookHeader = function(bookObj, bookId) {
       let results = bookObj.headers.filter((e) => {

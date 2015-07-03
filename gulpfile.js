@@ -47,9 +47,9 @@ gulp.task("copyLibs", function(){
   .pipe(gulp.dest("target/libs"));
 });
 
-gulp.task("copyData", function(){
-  gulp.src(["app/data/**/*"])
-  .pipe(gulp.dest("target/data"));
+gulp.task("copyImages", function(){
+  gulp.src(["app/images/**/*"])
+  .pipe(gulp.dest("target/images"));
 });
 
 gulp.task("watchJs", function(){
@@ -84,11 +84,16 @@ gulp.task("depSass", function(){
     .pipe(gulp.dest("deploy/css/"));
 });
 
+gulp.task("depCopyImages", function(){
+  gulp.src(["app/images/**/*"])
+  .pipe(gulp.dest("deploy/images"));
+});
+
 gulp.task("depRsync", shell.task([
   "rsync -a deploy/ [SERVER/HERE/with/folder]",
   "rm -rf deploy"
 ]));
 
-gulp.task("deploy", ["depModules", "depSass", "depIndex", "depCopyLibs", "depRsync"]);
-gulp.task("build", ["modules","sass", "copyIndex", "copyLibs" ]);
+gulp.task("deploy", ["depModules", "depSass", "depIndex", "depCopyLibs", "depCopyImages", "depRsync"]);
+gulp.task("build", ["modules","sass", "copyIndex", "copyLibs", "copyImages" ]);
 gulp.task("default", ["build","watchJs","webserver"]);
