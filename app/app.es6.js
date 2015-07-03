@@ -15,6 +15,7 @@ class App {
     let init = function() {
       $scope.changeBookOne();
       $scope.changeBookTwo();
+      $scope.updateTitles();
     }
 
     $scope.choices = typeof BOOKS != "undefined" ? BOOKS : [
@@ -28,31 +29,42 @@ class App {
       },
     ];
 
+    $scope.updateTitles = function() {
+      $scope.titleOne = MSG_LOADING;
+      $scope.titleTwo = "";
+
+      if ($scope.bookOne) {
+        $scope.titleOne = MSG_SELECT;
+
+        if ($scope.selectedBookId) {
+          let headerOne = $scope.getBookOneHeader($scope.selectedBookId);
+          let headerTwo = $scope.getBookTwoHeader($scope.selectedBookId);
+          $scope.titleOne = headerOne ? headerOne.headerLong : $scope.titleOne;
+          $scope.titleTwo = headerTwo ? headerTwo.headerLong : $scope.titleTwo;
+        }
+      };
+
+      if ($scope.selectedChapterId) {
+        $scope.titleOne += " " + $scope.selectedBookId;
+      }
+    };
+
     $scope.showSecondBook = true;
 
-    $scope.titleOne = MSG_LOADING;
     $scope.selectedBookId = 0;
     $scope.selectedChapterId = 0;
 
-    let headersCallback = function(headers) {
-      $scope.titleOne = $scope.titleOne == MSG_LOADING ? MSG_SELECT : $scope.titleOne;
-      $scope.$apply();
-    }
-
-    let chaptersCallback = function(chapters) {
-      $scope.$apply();
-    }
-
-    let versesCallback = function(verses) {
+    let masterCallback = function(data) {
+      $scope.updateTitles();
       $scope.$apply();
     }
 
     $scope.changeBookOne = function() {
       $scope.bookOne = new book({ 
                             language: $scope.selectedBookOne.lang || app.bookOneId || "asv",
-                            headersCallback: headersCallback,
-                            chaptersCallback: chaptersCallback,
-                            versesCallback: versesCallback
+                            headersCallback: masterCallback,
+                            chaptersCallback: masterCallback,
+                            versesCallback: masterCallback
                            });
       if ($scope.selectedBookId) $scope.setBookId($scope.selectedBookId, true);
       if ($scope.selectedChapterId) $scope.setChapterId($scope.selectedChapterId);
@@ -61,9 +73,9 @@ class App {
     $scope.changeBookTwo = function() {
       $scope.bookTwo = new book({ 
                             language: $scope.selectedBookTwo.lang || app.bookTwoId || "asv",
-                            headersCallback: headersCallback,
-                            chaptersCallback: chaptersCallback,
-                            versesCallback: versesCallback
+                            headersCallback: masterCallback,
+                            chaptersCallback: masterCallback,
+                            versesCallback: masterCallback
                            });
       if ($scope.selectedBookId) $scope.setBookId($scope.selectedBookId, true);
       if ($scope.selectedChapterId) $scope.setChapterId($scope.selectedChapterId);
@@ -103,29 +115,19 @@ class App {
     }
 
     $scope.setBookId = function(id, keepTitles) {
-      if (!keepTitles) {
-        $scope.titleOne = MSG_SELECT;
-        $scope.titleTwo = "";
-      }
-
       resetChaptersAndVerses();
       $scope.selectedBookId = id || 0;
       $scope.chapterIds = []; // resetting chapterIds
       if ($scope.selectedBookId) {
-        let headerOne = $scope.getBookOneHeader(id);
-        let headerTwo = $scope.getBookTwoHeader(id);
-        $scope.titleOne = headerOne ? headerOne.headerLong : $scope.titleOne;
-        $scope.titleTwo = headerTwo ? headerTwo.headerLong : $scope.titleTwo;
         $scope.bookOne.loadChapters(id);
       }
+      $scope.updateTitles();
     }
 
     $scope.setChapterId = function(id) {
       resetVerses();
       $scope.selectedChapterId = id || 0;
       if ($scope.selectedChapterId) {
-        // TODO make this better
-        $scope.titleOne += " " + id;
         $scope.bookOneVerses = $scope.bookOne.loadVerses($scope.selectedBookId, id);
         $scope.bookTwoVerses = $scope.bookTwo.loadVerses($scope.selectedBookId, id);
       }

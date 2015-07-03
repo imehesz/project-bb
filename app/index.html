@@ -23,8 +23,8 @@
   <div ng-controller="AppController">
     <div class="container">
       <h1 class="hide-on-small-only">{{titleOne}}</h1>
-      <h2 class="hide-on-small-only grey-text">{{titleTwo}}</h2>
-      <p class="hide-on-med-and-up">{{titleOne}} <span class="grey-text">{{titleTwo}}</span></p>
+      <h2 ng-show="showSecondBook" class="hide-on-small-only grey-text">{{titleTwo}}</h2>
+      <p class="hide-on-med-and-up">{{titleOne}} <span ng-show="showSecondBook" class="grey-text">{{titleTwo}}</span></p>
 
       <div class="action-wrapper">
         <a ng-show="selectedChapterId" ng-click="setChapterId(0)" class="btn-floating btn-small red bb-btn-back"><i class="large mdi-hardware-keyboard-arrow-left"></i></a>
